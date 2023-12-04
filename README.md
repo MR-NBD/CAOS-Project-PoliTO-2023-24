@@ -1,5 +1,5 @@
 # CAOS-Project-PoliTO-2023-24
-This is a Computer architectures and operating systems Project for FreeRTOS Demo with QEMU emuletor
+This is a Computer architectures and operating systems Project for FreeRTOS Demo with QEMU emulator
 
 # What is QEMU and why would we want to debug with it?
 QEMU is a machine emulator that allows you to virtualize hardware types, even across different architectures.
