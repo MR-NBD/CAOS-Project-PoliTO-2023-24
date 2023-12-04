@@ -49,6 +49,3 @@ python3.8 --version
 [Guida per intallare Arm GNU toolchain on Ubuntu ](https://lindevs.com/install-arm-gnu-toolchain-on-ubuntu)
 
 [Guida per intsllare CMAKE](https://vitux.com/how-to-install-cmake-on-ubuntu/)
-
-Ciao sono un coglione
-
