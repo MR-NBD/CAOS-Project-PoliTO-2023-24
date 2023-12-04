@@ -55,9 +55,9 @@ python3.8 --version
 This is a Guide for QEMU Emulation that work with another architecture 
 [QEMU on FreeRTOS](https://mcturra2000.wordpress.com/2019/11/16/freertos-on-qemu/)
 
-This command doesn't work Yet
+Run this command in the folder ...FreeRTOS/FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC to run QEMU with FreeRTOS
 
 ```shell
-qemu-system-arm -machine mps3-an524 -kernel /path/to/kernel-image-file -s -S
+qemu-system-arm -machine mps2-an385 -cpu cortex-m3 -kernel build/gcc/output/RTOSDemo.out -serial stdio -s -S
 
 ```
