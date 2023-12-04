@@ -54,8 +54,9 @@ python3.8 --version
 This is a Guide for QEMU Emulation that work with another architecture 
 [QEMU on FreeRTOS](https://mcturra2000.wordpress.com/2019/11/16/freertos-on-qemu/)
 
+This command dosen't work Yet
+
 ```shell
 qemu-system-arm -machine mps3-an524 -kernel /path/to/kernel-image-file -s -S
 
 ```
-This command dosen't work Yet
