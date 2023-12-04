@@ -49,3 +49,5 @@ python3.8 --version
 
 [Guida per intsllare CMAKE](https://vitux.com/how-to-install-cmake-on-ubuntu/)
 
+Ciao sono un coglione
+
