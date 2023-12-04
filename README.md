@@ -1,5 +1,5 @@
 # CAOS-Project-PoliTO-2023-24
-This is a Computer architectures and operating systems Project for FreeRTOS Demo with QEMU emuletor
+This is a Computer architectures and operating systems Project for FreeRTOS Demo with QEMU emulator
 
 # What is QEMU and why would we want to debug with it?
 QEMU is a machine emulator that allows you to virtualize hardware types, even across different architectures.
@@ -20,6 +20,7 @@ QEMU is a machine emulator that allows you to virtualize hardware types, even ac
 - Add QEMU, Arm GNU Compiler, CMake, and Make installation paths to your environment variable 
 
 [FreeRTOS debugger-tutoria](https://www.youtube.com/watch?v=l2GmlDN_SPo)
+[FreeRTOS QEMU](https://www.freertos.org/install-and-start-qemu-emulator/)
 
 ## This comand allow to install QEMU with ARM architecture
 ```shell
