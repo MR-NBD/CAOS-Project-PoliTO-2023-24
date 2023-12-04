@@ -58,6 +58,6 @@ This is a Guide for QEMU Emulation that work with another architecture
 This command doesn't work Yet
 
 ```shell
-qemu-system-arm -machine mps3-an524 -kernel /path/to/kernel-image-file -s -S
+qemu-system-arm -machine mps3-an524 -kernel FreeRTOS/FreeRTOS-Plus/ThirdParty/mbedtls/tests/data_files/base64/def_b64_ff.bin -s -S
 
 ```
