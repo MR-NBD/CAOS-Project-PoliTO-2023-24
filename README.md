@@ -1,3 +1,5 @@
+Gianluca è un coglione
+ZG92ZXZhbW8gcHJlbmRlcmUgbGEgYm9hcmQ=
 # CAOS-Project-PoliTO-2023-24
 This is a Computer architectures and operating systems Project for FreeRTOS Demo with QEMU emulator
 
@@ -49,3 +51,13 @@ python3.8 --version
 [Guida per intallare Arm GNU toolchain on Ubuntu ](https://lindevs.com/install-arm-gnu-toolchain-on-ubuntu)
 
 [Guida per intsllare CMAKE](https://vitux.com/how-to-install-cmake-on-ubuntu/)
+
+This is a Guide for QEMU Emulation that work with another architecture 
+[QEMU on FreeRTOS](https://mcturra2000.wordpress.com/2019/11/16/freertos-on-qemu/)
+
+This command doesn't work Yet
+
+```shell
+qemu-system-arm -machine mps3-an524 -kernel /path/to/kernel-image-file -s -S
+
+```
