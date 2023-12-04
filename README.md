@@ -20,6 +20,7 @@ QEMU is a machine emulator that allows you to virtualize hardware types, even ac
 - Add QEMU, Arm GNU Compiler, CMake, and Make installation paths to your environment variable 
 
 [FreeRTOS debugger-tutoria](https://www.youtube.com/watch?v=l2GmlDN_SPo)
+[FreeRTOS QEMU](https://www.freertos.org/install-and-start-qemu-emulator/)
 
 ## This comand allow to install QEMU with ARM architecture
 ```shell
