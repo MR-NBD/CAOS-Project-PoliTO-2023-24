@@ -50,3 +50,6 @@ python3.8 --version
 [Guida per intallare Arm GNU toolchain on Ubuntu ](https://lindevs.com/install-arm-gnu-toolchain-on-ubuntu)
 
 [Guida per intsllare CMAKE](https://vitux.com/how-to-install-cmake-on-ubuntu/)
+
+This is a Guide for QEMU Emulation that work with another architecture 
+[QEMU on FreeRTOS](https://mcturra2000.wordpress.com/2019/11/16/freertos-on-qemu/)
