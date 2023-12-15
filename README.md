@@ -111,7 +111,10 @@ then:
     wget https://github.com/Kitware/CMake/releases/download/v3.20.0/cmake-3.20.0.tar.gz
     ```
     ```shell
-    tar -zxvf cmake-3.20.0.tar.gz"; "cd cmake-3.20.0
+    tar -zxvf cmake-3.20.0.tar.gz
+    ```
+    ```shell
+    cd cmake-3.20.0
     ```
     ```shell
     ./bootstrap
