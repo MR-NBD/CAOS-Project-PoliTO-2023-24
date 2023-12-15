@@ -136,9 +136,31 @@ then:
 
 - deleted all Demos exept the one we choose ("CORTEX_MPS2_QEMU_IAR_GCC") and the "Common" folder which conteins essential files for building the project
 
+```code
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/../../**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
+```
+
 - built the Demo gcc project with the command "make" in the FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC/build/gcc/
 
 - added file "{DemoPath}/.vscode/c_cpp_proprieties.json":
+
+  	
 	
 - modified "{DemoPath}/.vscode/launch.json" : uptade miDebuggerPath to the right one (my case is "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gdb")
 
