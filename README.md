@@ -74,7 +74,10 @@ then:
     ```
 - Python3.8 : 
     ```shell
-    sudo add-apt-repository ppa:deadsnakes/ppa" ; "sudo apt install python3.8
+    sudo add-apt-repository ppa:deadsnakes/ppa
+    ```
+    ```shell
+    sudo apt install python3.8
     ```
 - ARM toolchain(gcc-arm-none-eabi)(following guide of "https://lindevs.com/install-arm-gnu-toolchain-on-ubuntu") : 
     ```shell
@@ -88,10 +91,12 @@ then:
     ```
     ```shell
     echo 'export PATH=$PATH:/opt/gcc-arm-none-eabi/bin' | sudo tee -a /etc/profile.d/gcc-arm-none-eabi.sh"
-    ``` (adding the gcc to PATH)
+    ```
+    (adding the gcc to PATH)
     ```shell
     source /etc/profile
-    ``` (to refresh config)
+    ```
+    (to refresh config)
     ```shell
     sudo apt install -y libncursesw5
     ```
