@@ -70,3 +70,7 @@ deleted all Demos exept the one we choose
 
 built the Demo gcc project with the command "make" in the FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC/build/gcc/
 
+added file ".vscode/c_cpp_proprieties.json"
+
+modified ".vscode/launch.json" : uptade miDebuggerPath to the right one (my case is "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gdb" in my machine)
+
