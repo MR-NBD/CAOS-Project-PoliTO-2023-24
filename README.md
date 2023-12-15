@@ -78,6 +78,7 @@ then:
     "sudo tar xf gcc-arm-none-eabi.tar.xz --strip-components=1 -C /opt/gcc-arm-none-eabi";
     "echo 'export PATH=$PATH:/opt/gcc-arm-none-eabi/bin' | sudo tee -a /etc/profile.d/gcc-arm-none-eabi.sh"; (add the gcc to PATH)
     "source /etc/profile"; (to refresh config)
+    "sudo apt install -y libncursesw5"
 - CMAKE (following guide of https://vitux.com/how-to-install-cmake-on-ubuntu/): 
     "sudo apt-get install build-essential libssl-dev"; 
     "cd /tmp";
@@ -95,13 +96,13 @@ downloaded "https://sourceforge.net/projects/freertos/files/latest/download?sour
 
 extracted the FreeRTOS Folder
 
-deleted all Demos exept the one we choose
+deleted all Demos exept the one we choose ("CORTEX_MPS2_QEMU_IAR_GCC") and the "Common" folder which conteins essential files for building the project
 
 built the Demo gcc project with the command "make" in the FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC/build/gcc/
 
-added file ".vscode/c_cpp_proprieties.json"
-
-modified ".vscode/launch.json" : uptade miDebuggerPath to the right one (my case is "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gdb" in my machine)
+added file "{DemoPath}/.vscode/c_cpp_proprieties.json":
+	
+modified "{DemoPath}/.vscode/launch.json" : uptade miDebuggerPath to the right one (my case is "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gdb" in my machine)
 
 (install plugin vscode C/C++ Extextion and VSL extenction)
 (VSL)
