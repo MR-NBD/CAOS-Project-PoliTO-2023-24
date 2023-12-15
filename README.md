@@ -59,3 +59,14 @@ Run this command in the folder ...FreeRTOS/FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GC
 qemu-system-arm -machine mps2-an385 -cpu cortex-m3 -kernel build/gcc/output/RTOSDemo.out -serial stdio -s -S
 
 ```
+
+# Kosimo-patch
+
+downloaded "https://sourceforge.net/projects/freertos/files/latest/download?source=files";
+
+extracted the FreeRTOS Folder
+
+deleted all Demos exept the one we choose
+
+built the Demo gcc project with the command "make" in the FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC/build/gcc/
+
