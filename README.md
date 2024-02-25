@@ -120,3 +120,8 @@ Then run this command in the folder FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC to ru
 ```shell
 qemu-system-arm -machine mps2-an385 -cpu cortex-m3 -kernel build/gcc/output/RTOSDemo.out -serial stdio -s -S
 ```
+
+
+#Aim of the project
+
+The purpose of this project is to compare different scheduling algorithms computing the statistics and discussing the advantages and disadvantages for each of them.
