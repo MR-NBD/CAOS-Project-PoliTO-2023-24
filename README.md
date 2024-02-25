@@ -50,78 +50,72 @@ qemu-system-arm --version
 or
 [FreeRTOS github](https://github.com/FreeRTOS/FreeRTOS)
 
-3. Download and install the debugger for Arm, in this case we have selected the Arm GNU toolchain(gcc-arm-none-eabi):
+3. Download and install the debugger for Arm, in this case we have selected the Arm GNU toolchain(gcc-arm-none-eabi): [Link](https://lindevs.com/install-arm-gnu-toolchain-on-ubuntu)
 
 On Linux, the Arm GNU toolchain provides GDB with Python support. Requires version 3.8 to be installed, any other version may return errors.
 To install the correct version of Python the commands are:  
-    ```shell
-    	sudo add-apt-repository ppa:deadsnakes/ppa
-    ```
-    ```shell
-    	sudo apt install python3.8
-    ```
+```shell
+sudo add-apt-repository ppa:deadsnakes/ppa
+```
+```shell
+sudo apt install python3.8
+```
 then:
 
 ```shell
-    	ARM_TOOLCHAIN_VERSION=$(curl -s https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads | grep -Po '<h4>Version \K.+(?=</h4>)')
-    ```
-    
-    ```shell
-    	curl -Lo gcc-arm-none-eabi.tar.xz "https://developer.arm.com/-/media/Files/downloads/gnu/${ARM_TOOLCHAIN_VERSION}/binrel/arm-gnu-toolchain-${ARM_TOOLCHAIN_VERSION}-x86_64-arm-none-eabi.tar.xz"
-    ```
-    
-    ```shell
-    	sudo tar xf gcc-arm-none-eabi.tar.xz --strip-components=1 -C /opt/gcc-arm-none-eabi"
-    ```
-    
-    ```shell
-    	echo 'export PATH=$PATH:/opt/gcc-arm-none-eabi/bin' | sudo tee -a /etc/profile.d/gcc-arm-none-eabi.sh"
-    ```
-    
-    ```shell
-    	source /etc/profile
-    ```
-    
-    ```shell
-    	sudo apt install -y libncursesw5
-    ```
+ARM_TOOLCHAIN_VERSION=$(curl -s https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads | grep -Po '<h4>Version \K.+(?=</h4>)')
+```
+```shell
+curl -Lo gcc-arm-none-eabi.tar.xz "https://developer.arm.com/-/media/Files/downloads/gnu/${ARM_TOOLCHAIN_VERSION}/binrel/arm-gnu-toolchain-${ARM_TOOLCHAIN_VERSION}-x86_64-arm-none-eabi.tar.xz"
+```
+```shell
+sudo tar xf gcc-arm-none-eabi.tar.xz --strip-components=1 -C /opt/gcc-arm-none-eabi"
+```
+```shell
+echo 'export PATH=$PATH:/opt/gcc-arm-none-eabi/bin' | sudo tee -a /etc/profile.d/gcc-arm-none-eabi.sh"
+```
+```shell
+source /etc/profile
+```
+```shell
+sudo apt install -y libncursesw5
+```
     
 To verify the correct installation
-    ```shell
-	arm-none-eabi-gcc --version
-	arm-none-eabi-g++ --version
-    ```
+```shell
+arm-none-eabi-gcc --version
+arm-none-eabi-g++ --version
+```
 
-4. download and install compiler make and cmake:
-    ```shell
-    sudo apt-get install build-essential libssl-dev
-    ```
-    ```shell
-    cd /tmp
-    ```
-    ```shell
-    wget https://github.com/Kitware/CMake/releases/download/v3.20.0/cmake-3.20.0.tar.gz
-    ```
-    ```shell
-    tar -zxvf cmake-3.20.0.tar.gz
-    ```
-    ```shell
-    cd cmake-3.20.0
-    ```
-    ```shell
-    ./bootstrap
-    ```
-    ```shell
-    make
-    ```
-    ```shell
-    sudo make install
-    ```
+4. download and install compiler make and cmake: [Link](https://vitux.com/how-to-install-cmake-on-ubuntu/)
+```shell
+sudo apt-get install build-essential libssl-dev
+```
+```shell
+cd /tmp
+```
+```shell
+wget https://github.com/Kitware/CMake/releases/download/v3.20.0/cmake-3.20.0.tar.gz
+```
+```shell
+tar -zxvf cmake-3.20.0.tar.gz
+```
+```shell
+cd cmake-3.20.0
+```
+```shell
+./bootstrap
+```
+```shell
+make
+```
+```shell
+sudo make install
+```
 
 
-Run this command in the folder ...FreeRTOS/FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC to run QEMU with FreeRTOS
+Run this command in the folder FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC to run QEMU with FreeRTOS
 
 ```shell
 qemu-system-arm -machine mps2-an385 -cpu cortex-m3 -kernel build/gcc/output/RTOSDemo.out -serial stdio -s -S
-
 ```
