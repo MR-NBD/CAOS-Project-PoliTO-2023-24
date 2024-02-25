@@ -39,7 +39,7 @@ This project illustrates the main features of FreeRTOS, its implementation with 
 Our base of support for the entire tutorial will be an Ubuntu 22.04.3 LTS operating system on Windows 10 x86_64.
 1. First we need to download QEMU and the arm architecture extension
  ```shell
-    sudo apt install qemu-system-arm
+ sudo apt install qemu-system-arm
  ```
 To verify the correct installation
 ```shell
