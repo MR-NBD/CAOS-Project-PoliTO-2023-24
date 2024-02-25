@@ -122,6 +122,6 @@ qemu-system-arm -machine mps2-an385 -cpu cortex-m3 -kernel build/gcc/output/RTOS
 ```
 
 
-#Aim of the project
+# Aim of the project
 
 The purpose of this project is to compare different scheduling algorithms computing the statistics and discussing the advantages and disadvantages for each of them.
