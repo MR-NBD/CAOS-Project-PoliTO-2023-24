@@ -113,7 +113,7 @@ make
 sudo make install
 ```
 
-To run the wanted algorithm change the function called in the main() with the right one(see above) in file [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main.c].
+To run the wanted algorithm change the function called in the main() with the right one(see above) in file [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main.c](FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main.c).
 
 Then run this command in the folder FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC to run QEMU with FreeRTOS
 
