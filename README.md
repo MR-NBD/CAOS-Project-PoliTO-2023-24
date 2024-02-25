@@ -40,7 +40,7 @@ Our base of support for the entire tutorial will be an Ubuntu 22.04.3 LTS operat
 1. First we need to download QEMU and the arm architecture extension
  ```shell
     sudo apt install qemu-system-arm
-    ```
+ ```
 To verify the correct installation
     ```shell
 	qemu-system-arm --version
