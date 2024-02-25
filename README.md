@@ -42,9 +42,9 @@ Our base of support for the entire tutorial will be an Ubuntu 22.04.3 LTS operat
     sudo apt install qemu-system-arm
  ```
 To verify the correct installation
-    ```shell
-	qemu-system-arm --version
-    ```
+```shell
+qemu-system-arm --version
+```
 2. Download FreeRTOS
 [FreeRTOS](https://www.freertos.org/index.html)
 or
@@ -62,7 +62,9 @@ To install the correct version of Python the commands are:
     ```
 then:
 
-
+```shell
+    	ARM_TOOLCHAIN_VERSION=$(curl -s https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads | grep -Po '<h4>Version \K.+(?=</h4>)')
+    ```
     
     ```shell
     	curl -Lo gcc-arm-none-eabi.tar.xz "https://developer.arm.com/-/media/Files/downloads/gnu/${ARM_TOOLCHAIN_VERSION}/binrel/arm-gnu-toolchain-${ARM_TOOLCHAIN_VERSION}-x86_64-arm-none-eabi.tar.xz"
