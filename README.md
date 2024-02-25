@@ -16,31 +16,28 @@ This repository contains:
    		- Timeline Scheduling [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_timelinescheduling.c]
 		- Rate Monotonic [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_RM.c]
 
-# CAOS-Project-PoliTO-2023-24
-This is a Computer architectures and operating systems Project for FreeRTOS Demo with QEMU emulator
+
+## Abstract
+
+This project illustrates the main features of FreeRTOS, its implementation with QEMU, and various usage experiments aimed at deepening the main contents presented during the course. This project is based on embedded systems, which are now ubiquitous in modern technology, requiring specialized operating systems due to resource constraints and real-time requirements. For our project, we chose FreeRTOS, a lightweight, open-source real-time operating system with the Demo "CORTEX-MPS2" a multicore processor designed for high-performance embedded systems and compiled with gcc. We will present the characteristics of this OS, an example tutorial on how to simulate an Arm architecture with QEMU, and explanations of the topics addressed above and explored in depth by our group.
 
 # What is QEMU and why would we want to debug with it?
-QEMU is a machine emulator that allows you to virtualize hardware types, even across different architectures.
- You can run applications against hardware target that you may not have immediate access to. This might be because:
- - You are still in the process of selecting a chipset for an embedded product design 
- - Your boards are somewhere else like a lab
- - ==You want to run automated tests without physical hardware== seems our case
- - The real hardware is simply in short supply
+- Reduced development costs as physical hardware is not required.
+- Increased testing flexibility, allowing the execution of multiple scenarios.
+- Early debugging and problem identification.
+- Safe experimentation without the risks associated with hardware manipulation.
 
 # What we need to get started?
-- [FreeRTSO](https://pmvanker.blogspot.com/2020/05/freertos-with-ubuntu.html)
-- VSCode 
+- [FreeRTSO](https://www.freertos.org/index.html) 
 - QEMU
 - Arm GNU Toolchain
 - CMake
-- Git
 - Make
-- Add QEMU, Arm GNU Compiler, CMake, and Make installation paths to your environment variable 
 
-[FreeRTOS debugger-tutoria](https://www.youtube.com/watch?v=l2GmlDN_SPo)
-[FreeRTOS QEMU](https://www.freertos.org/install-and-start-qemu-emulator/)
+## Steps to quickly install
 
-## This comand allow to install QEMU with ARM architecture
+Our base of support for the entire tutorial will be an Ubuntu 22.04.3 LTS operating system on Windows 10 x86_64
+
 ```shell
 sudo apt install qemu-system-arm
 ```
