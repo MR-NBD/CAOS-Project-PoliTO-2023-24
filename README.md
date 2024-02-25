@@ -113,8 +113,9 @@ make
 sudo make install
 ```
 
+To run the wanted algorithm change the function called in the main() with the right one(see above) in file [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main.c].
 
-Run this command in the folder FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC to run QEMU with FreeRTOS
+Then run this command in the folder FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC to run QEMU with FreeRTOS
 
 ```shell
 qemu-system-arm -machine mps2-an385 -cpu cortex-m3 -kernel build/gcc/output/RTOSDemo.out -serial stdio -s -S
