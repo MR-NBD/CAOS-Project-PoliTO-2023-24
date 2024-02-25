@@ -1,3 +1,21 @@
+# HaclOSsim Project group 4
+
+## Alberto Ameglio, Giovanni Luca Di Bella, Enrico Di Stasio, Giuseppe Salvemini, Cosimo Vergari
+
+This repository contains:
+
+-  FreeRTOS Demo (CORTEX-MPS2_QEMU_IAR_GCC) with dependencies
+-  Short report (report_group4.tex, report_group4.pdf)
+-  Powerpoint presentation (presentation_group4.pdf, presentation_group4.pptx)
+-  Code implementations of the following scheduling algorithms:
+  	- General Purpose:
+		- First Come First Served [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_fcfs.c]
+   		- Shortest Job First [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_sjf.c]
+		- Round Robin [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_rr.c]
+	- Real Time:
+   		- Timeline Scheduling [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_timelinescheduling.c]
+		- Rate Monotonic [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_RM.c]
+
 # CAOS-Project-PoliTO-2023-24
 This is a Computer architectures and operating systems Project for FreeRTOS Demo with QEMU emulator
 
