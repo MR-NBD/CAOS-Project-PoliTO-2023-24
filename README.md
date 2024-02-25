@@ -55,30 +55,30 @@ or
 On Linux, the Arm GNU toolchain provides GDB with Python support. Requires version 3.8 to be installed, any other version may return errors.
 To install the correct version of Python the commands are:  
     ```shell
-    sudo add-apt-repository ppa:deadsnakes/ppa
+    	sudo add-apt-repository ppa:deadsnakes/ppa
     ```
     ```shell
-    sudo apt install python3.8
+    	sudo apt install python3.8
     ```
 then:
     ```shell
-    ARM_TOOLCHAIN_VERSION=$(curl -s https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads | grep -Po '<h4>Version \K.+(?=</h4>)')
+    	ARM_TOOLCHAIN_VERSION=$(curl -s https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads | grep -Po '<h4>Version \K.+(?=</h4>)')
     ```
     ```shell
-    curl -Lo gcc-arm-none-eabi.tar.xz "https://developer.arm.com/-/media/Files/downloads/gnu/${ARM_TOOLCHAIN_VERSION}/binrel/arm-gnu-toolchain-${ARM_TOOLCHAIN_VERSION}-x86_64-arm-none-eabi.tar.xz"
+    	curl -Lo gcc-arm-none-eabi.tar.xz "https://developer.arm.com/-/media/Files/downloads/gnu/${ARM_TOOLCHAIN_VERSION}/binrel/arm-gnu-toolchain-${ARM_TOOLCHAIN_VERSION}-x86_64-arm-none-eabi.tar.xz"
     ```
     ```shell
-    sudo tar xf gcc-arm-none-eabi.tar.xz --strip-components=1 -C /opt/gcc-arm-none-eabi"
+    	sudo tar xf gcc-arm-none-eabi.tar.xz --strip-components=1 -C /opt/gcc-arm-none-eabi"
     ```
     ```shell
-    echo 'export PATH=$PATH:/opt/gcc-arm-none-eabi/bin' | sudo tee -a /etc/profile.d/gcc-arm-none-eabi.sh"
+    	echo 'export PATH=$PATH:/opt/gcc-arm-none-eabi/bin' | sudo tee -a /etc/profile.d/gcc-arm-none-eabi.sh"
     ```
     ```shell
-    source /etc/profile
+    	source /etc/profile
     ```
     ```shell
-    sudo apt install -y libncursesw5
-
+    	sudo apt install -y libncursesw5
+    ```
 To verify the correct installation
     ```shell
 	arm-none-eabi-gcc --version
