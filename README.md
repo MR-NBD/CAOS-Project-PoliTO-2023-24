@@ -61,7 +61,7 @@ To install the correct version of Python the commands are:
     sudo apt install python3.8
     ```
 then:
- ```shell
+    ```shell
     ARM_TOOLCHAIN_VERSION=$(curl -s https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads | grep -Po '<h4>Version \K.+(?=</h4>)')
     ```
     ```shell
