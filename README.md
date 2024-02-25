@@ -9,12 +9,12 @@ This repository contains:
 -  Powerpoint presentation (presentation_group4.pdf, presentation_group4.pptx)
 -  Code implementations of the following scheduling algorithms:
   	- General Purpose:
-		- First Come First Served [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_fcfs.c]
-   		- Shortest Job First [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_sjf.c]
-		- Round Robin [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_rr.c]
+		- First Come First Served [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_fcfs.c]([FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_fcfs.c])
+   		- Shortest Job First [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_sjf.c]([FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_sjf.c])
+		- Round Robin [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_rr.c](FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_rr.c)
 	- Real Time:
-   		- Timeline Scheduling [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_timelinescheduling.c]
-		- Rate Monotonic [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_RM.c]
+   		- Timeline Scheduling [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_timelinescheduling.c](FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_timelinescheduling.c)
+		- Rate Monotonic [FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_RM.c](FreeRTOS/Demo/CORTEX-MPS2_QEMU_IAR_GCC/main_RM.c)
 
 
 ## Abstract
