@@ -1,0 +1,444 @@
+\documentclass[9pt, reqno]{amsart}
+\usepackage{amsmath, amsthm, amscd, amsfonts, amssymb, graphicx, xcolor}
+\usepackage[bookmarksnumbered, colorlinks, plainpages]{hyperref}
+\usepackage{listings}
+\usepackage{graphicx}
+
+
+
+% colors for code snippets
+\definecolor{codegreen}{rgb}{0,0.7,0.5}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeblue}{rgb}{0,0.5,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{orange},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codeblue},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+%------------------------------------------------------------------------------%
+\textheight 22.5truecm \textwidth 14.5truecm
+\setlength{\oddsidemargin}{0.35in}\setlength{\evensidemargin}{0.35in}
+
+\setlength{\topmargin}{-.5cm}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{summary}[theorem]{Summary}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\begin{document}
+\setcounter{page}{1}
+
+\color{darkgray}{
+\noindent 
+{\small Computer architecture and operating systems}\hfill     {\small L01GYKUV}\\
+{\small 26/02/2024}\hfill  
+
+
+
+\centerline{}
+
+\centerline{}
+\begin{center}
+\includegraphics[height=2cm]{PolitoLOGO.png} \end{center}
+\title[HaclOSsim]{HaclOSsim}
+
+\author[Alberto Ameglio, Giuseppe Salvemini, Enrico Di Stasio, Giovanni Luca Di Bella]{Alberto Ameglio$^1$, Giuseppe Salvemini$^2$, Enrico Di Stasio$^3$, Giovanni Luca Di Bella $^4$and Cosimo Vergari$^5$$^{*}$}
+
+\address{$^{1}$ Master's Degree Course in CYBERSECURITY at the Polytechnic of Turin teaching class: LM-32 (DM270))}
+\email{\textcolor[rgb]{0.00,0.00,0.84}{s330946@studenti.polito.it}}
+
+\address{$^{2}$ Master's Degree Course in CYBERSECURITY at the Polytechnic of Turin teaching class: LM-32 (DM270))}
+\email{\textcolor[rgb]{0.00,0.00,0.84}{s322886@studenti.polito.it}}
+
+\address{$^{3}$ Master's Degree Course in CYBERSECURITY at the Polytechnic of Turin teaching class: LM-32 (DM270))}
+\email{\textcolor[rgb]{0.00,0.00,0.84}{s323075@studenti.polito.it}}
+
+\address{$^{4}$ Master's Degree Course in CYBERSECURITY at the Polytechnic of Turin teaching class: LM-32 (DM270))}
+\email{\textcolor[rgb]{0.00,0.00,0.84}{s332088@studenti.polito.it}}
+
+\address{$^{5}$ Master's Degree Course in CYBERSECURITY at the Polytechnic of Turin teaching class: LM-32 (DM270))}
+\email{\textcolor[rgb]{0.00,0.00,0.84}{s329479@studenti.polito.it}}
+
+
+\keywords{Computer architecture, operating systems, OS embedded, FreeRTOS, QEMU, Cortex-M MPS2, Scheduling}
+
+
+\begin{abstract}
+This article illustrates the main features of FreeRTOS, its implementation with QEMU, and various usage experiments aimed at deepening the main contents presented during the course. This project is based on embedded systems, which are now ubiquitous in modern technology, requiring specialized operating systems due to resource constraints and real-time requirements. For our project, we chose FreeRTOS, a lightweight, open-source real-time operating system. We will present the characteristics of this OS, an example tutorial on how to simulate an Arm architecture with QEMU, and explanations of the topics addressed and explored in depth by our group.
+\end{abstract} \maketitle
+
+\section{Introduction}
+
+\noindent Embedded systems permeate our daily lives, spanning from industrial automation to medical devices and the Internet of Things (IoT). These operating systems execute specialized tasks with constrained resources (memory, processing power, energy) and demand deterministic behavior to ensure real-time performance. Traditional operating systems, tailored for general computing, struggle within this constrained environment.
+The standout feature of FreeRTOS is its lightweight kernel, guaranteeing minimal resource consumption. Key characteristics include:
+
+
+\begin{itemize}
+        \item \textbf{Lightweight design}: Utilizes minimal resources, making it optimal for embedded systems.
+	\item \textbf{Open-source nature}: Community-driven innovation ensures constantly updated libraries.
+	\item \textbf{Portability}: Adapts seamlessly to diverse hardware architectures, enhancing flexibility.
+	\item \textbf{Task Scheduling}: FreeRTOS employs a priority-based queue to prioritize critical tasks, preempting less urgent ones. This deterministic approach ensures predictable execution times, crucial in the real-time realm of embedded systems.
+	\item \textbf{Memory Management}: Operating within resource limitations, FreeRTOS employs dynamic allocation and memory pools to optimize memory usage.
+	\item \textbf{Interrupt Management}: FreeRTOS swiftly responds to external events like sensor readings or button presses, enabling efficient handling.
+\end{itemize}
+However, FreeRTOS's true strength lies in its portability. It effortlessly adapts to various hardware architectures, rendering it a versatile operating system for myriad platforms. This adaptability is achieved by facilitating communication and data exchange among a wide array of devices\cite{download1}.
+For this project, the \textbf{Cortex-M MPS2} was selected, which is a multicore processor designed for high-performance embedded systems. The Cortex-M MPS2 finds widespread implementation in various fields such as industrial automation, motor control, robotics, communication systems, and medical devices.
+We will now provide a brief overview of QEMU, which is essential for our tutorial. QEMU is a free and robust open-source emulator that enables simulation of various hardware architectures, including those of embedded systems such as Arm-based devices. Unlike merely emulating the CPU, QEMU replicates the entire system, encompassing memory, peripherals, and other hardware components. This capability allows you to execute operating systems and applications within the virtual machine as if they were running on genuine hardware. QEMU stands out for its exceptional support for multiple Arm architectures, facilitating software development and testing across a broad spectrum of devices\cite{QEMU}. Its extensive customization options and scripting capability enable the creation of tailored simulations to meet specific requirements.
+Utilizing QEMU offers several advantages:
+\begin{itemize}
+    \item Reduced development costs as physical hardware is not required.
+    \item Increased testing flexibility, allowing the execution of multiple scenarios.
+    \item Early debugging and problem identification.
+    \item Safe experimentation without the risks associated with hardware manipulation.
+\end{itemize}
+
+\subsection{Tutorial}
+\begin{enumerate}
+    \item As the first point of our tutorial we need to download QEMU. Our base of support for the entire tutorial will be an Ubuntu 22.04.3 LTS operating system on Windows 10 x86. To download QEMU on the Ubuntu operating system, simply type the command: \textbf{sudo apt install qemu-system-arm}. The specification requires sudo to request the necessary privileges, apt is the software package manager for the Debian distribution in this case we will subsequently specify qemu -system-arm to explicitly request the extension for the arm architecture. To check if QEMU has been installed correctly on the machine we can use this command: \textbf{qemu-system-arm --version}, In our case the output is: QEMU emulator version 6.2.0. 
+    \item After that we will have to download FreeRTOS, available for free from the official documentation page \cite{download1} or from the official github repository\cite{download2}. 
+    \item As the third points the fundamental element we need a debugger for Arm in this case we have selected the Arm GNU toolchain\cite{toolchain}. The GNU Arm toolchain (formerly known as the GNU Arm Embedded toolchain) is a collection of packages such as GCC (GNU Compiler Collection), Binutils, GDB, and others. It is used for developing embedded system software. This toolchain is intended for the 32-bit ARM Cortex-A, ARM Cortex-M, and ARN Cortex-R processor families. There is no easy way to download and determine the latest version of the toolchain via the command line. We then proceed by going to the original site and extracting the latest version of the toolchain as follows: 
+    \begin{lstlisting}[breaklines=true, basicstyle=\bfseries,basicstyle=\small]
+    ARM_TOOLCHAIN_VERSION=$(curl -s https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads | grep -Po '<h4>Version \K.+(?=</h4>)')
+    \end{lstlisting}
+    Next, we download the archive file from the official website:
+    \begin{lstlisting}[breaklines=true, basicstyle=\bfseries,basicstyle=\small]
+    curl -Lo gcc-arm-none-eabi.tar.xz "https://developer.arm.com/-/media/Files/downloads/gnu/${ARM_TOOLCHAIN_VERSION}/binrel/arm-gnu-toolchain-${ARM_TOOLCHAIN_VERSION}-x86_64-arm-none-eabi.tar.xz"\end{lstlisting}
+    You need to create a new directory to store the toolchain files: \textbf{sudo mkdir /opt/gcc-arm-none-eabi}
+    We extract the toolchain files in the specified directory: \textbf{sudo tar xf gcc-arm-none-eabi.tar.xz --strip-components=1 -C /opt/gcc-arm-none-eabi}
+    We add the /opt/gcc-arm-none-eabi/bin directory to the PATH environment variable:\begin{lstlisting}[breaklines=true, basicstyle=\bfseries]
+    echo 'export PATH=$PATH:/opt/gcc-arm-none-eabi/bin' | sudo tee -a /etc/profile.d/gcc-arm-none-eabi.sh"\end{lstlisting} 
+    To make the changes made effective, we can log out and log in to the system or run the following command to immediately apply the changes: \textbf{source /etc/profile}.
+    We can check the version of the compilers: \textbf{arm-none-eabi-gcc --version} \textbf{arm-none-eabi-g++ --version}.Remove unnecessary archive file: \textbf{rm -rf gcc-arm-none-eabi.tar.xz}.
+    On Linux, the Arm GNU toolchain provides GDB with Python support. Requires version 3.8 to be installed, any other version may return errors. To install the correct version of Python the commands are: \textbf{sudo add-apt-repository ppa:deadsnakes/ppa} and \textbf{sudo apt install python3.8}.
+    \item At this point we can extract the FreeRTOS folder and we must access the directory taken into consideration: \textbf{cd : FreeRTOS/FreeRTOS/Demo} at this point we can delete all the other demos that we don't need except CORTEX\_MPS2\_QEMU\_IAR\_GCC. Now to run our simulation we need the command: \textbf{qemu-system-arm -machine mps2-an385 -cpu cortex-m3 -kernel build/gcc/output/RTOSDemo.out -serial stdio -s -S}
+    \item To make changes to the OS we need to recreate the binary file for each change. To do this we need a make and cmake compiler\cite{Cmake}. Make is a tool widely used in Unix-like systems to automate the process of compiling programs. It is based on a configuration file called "Makefile", which contains instructions on how to compile and link source code into executables or libraries. For correct installation we must follow the following commands:
+    \begin{lstlisting}[breaklines=true, basicstyle=\bfseries,basicstyle=\small]
+    sudo apt-get install build-essential libssl-dev
+    cd /tmp
+    wget https://github.com/Kitware/CMake/releases/download/v3.20.0/cmake-3.20.0.tar.gz
+    tar -zxvf cmake-3.20.0.tar.gz
+    cd cmake-3.20.0
+    ./bootstrap
+    make
+    sudo make install\end{lstlisting}
+\end{enumerate}
+
+
+\section{First Come First Served}
+\label{sec:First Come First Served}
+First Come First Served is a non-preemptive scheduling algorithm where the waiting time of the single tasks depends on the time of its arrival.\newline
+\textbf{Requirements}\newline
+We need to adjust the config file of “FreeRTOSConfig.h” in the following way:
+\begin{itemize}
+    \item set “configUSE\_PREEMPTION” to 0, to deactivate the preemption since this is not a preemptive algorithm.
+    \item set “configUSE\_TIME\_SLICING” to 0, to deactivate the time slicing feature of FreeRTOS. This feature is used to enable the round robin algorithm if some tasks have the same priority (as in this case).
+\end{itemize}
+\subsection{The code}
+For the demo we used three tasks T1,T2,T3 arriving in this order at time 0, with the same priority (“mainTASK\_PRIORITY = 2”) and execution time of 1200ms, 300ms and 600ms respectively. 
+Another task is also created for just printing the statistics called “statistics”, with a lower priority.\ref{sec:code Round Robin}
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+    void main_fcfs( void ){
+		xTaskCreate( task1, "T1", configMINIMAL_STACK_SIZE, NULL, mainTASK_PRIORITY, NULL );
+		xTaskCreate( task2, "T2", configMINIMAL_STACK_SIZE, NULL, mainTASK_PRIORITY, NULL );
+		xTaskCreate( task3, "T3", configMINIMAL_STACK_SIZE, NULL, mainTASK_PRIORITY, NULL );
+		xTaskCreate( statistics, "statistics", configMINIMAL_STACK_SIZE, NULL, mainTASK_PRIORITY-1, NULL );
+		vTaskStartScheduler();}
+\end{lstlisting} 
+All the tasks do the same thing: they are just blocked in a loop until the right amount of CPU ticks are passed, and then they save their turnaround time and waiting time and terminate.
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+static void task1(void *pvParameters){
+	TickType_t task1Start = xTaskGetTickCount();
+	printf("Task1 started at time %dms\n", pdTICKS_TO_MS(task1Start));
+	while (xTaskGetTickCount() - task1Start < pdMS_TO_TICKS(1200));
+	TickType_t task1Stop = xTaskGetTickCount();
+	printf("Task1 finished at time %dms\n", pdTICKS_TO_MS(task1Stop));
+	wt1_fcfs = pdTICKS_TO_MS(task1Start);
+	tt1_fcfs = pdTICKS_TO_MS(task1Stop);
+	vTaskDelete(NULL);}
+\end{lstlisting}
+\section{Shortest Job First}
+Shortest job first is a non-preemptive scheduling algorithm where the order of the tasks to be executed depends on their execution time: the shortest first.\newline
+\textbf{Requirements}
+Same as FCFS.\ref{sec:First Come First Served}
+\subsection{The code}
+For the demo we used three tasks T1,T2,T3 arriving in this order at time 0, with different priorities based on their execution time: 
+\begin{itemize}
+    \item T1 with 1200ms execution time and priority set to 2
+    \item T2 with 300ms execution time and priority set to 4
+    \item T3 with 600ms execution time and priority set to 3
+\end{itemize}
+Another task is also created for just printing the statistics called “statistics”, with a lower priority.\ref{sec:code Round Robin}
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+void main_sjf( void ){
+		xTaskCreate( task1, "T1", configMINIMAL_STACK_SIZE, NULL, TASK1_PRIORITY, NULL );
+		xTaskCreate( task2, "T2", configMINIMAL_STACK_SIZE, NULL, TASK2_PRIORITY, NULL );
+		xTaskCreate( task3, "T3", configMINIMAL_STACK_SIZE, NULL, TASK3_PRIORITY, NULL );
+		xTaskCreate( statistics, "statistics", configMINIMAL_STACK_SIZE, NULL, STAT_PRIORITY, NULL );
+		vTaskStartScheduler();}
+\end{lstlisting} 
+
+\section{Round Robin}
+Round-robin scheduling is a preemptive scheduling algorithm used in computing. It assigns time slices, also known as time quanta, to each process in equal portions and in a circular order, handling all processes without priority.\newline
+\textbf{Requirements}\newline
+Using a round robin algorithm on Freertos is easy because it’s natively supported, we just need to make sure that all the tasks have the same priority and we need to modify the FreeRTOSConfig.h file and set configUSE\_PREEMPTION to 1 and configUSE\_TIME\_SLICING to 1. It is also possible to specify the time quantum by modifying the configTICK\_RATE\_HZ, in fact a task is preempted at every tick and with that parameter we are setting the number of ticks in a second, for example if configTICK\_RATE\_HZ is set to 1000 it means that every 1ms we have a context switch. 
+In our project we implemented round robin in a different way to better compute statistics like waiting time and turnaround time, we set configUSE\_PREEMPTION to 1 but we disabled the time slicing to create a sort of handmade round robin.
+
+\subsection{The code}
+\label{sec:code Round Robin}
+We created 3 tasks with the same priority that will be scheduled in round robin with a time quantum of 100ms, there is also a fourth task with a lower priority that will be used to compute the statistics and will be executed after the 3 tasks.
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+void main_rr( void ){
+        xTaskCreate( task1, "T1", configMINIMAL_STACK_SIZE, NULL, mainTASK_PRIORITY, NULL );
+        xTaskCreate( task2, "T2", configMINIMAL_STACK_SIZE, NULL, mainTASK_PRIORITY, NULL );
+        xTaskCreate( task3, "T3", configMINIMAL_STACK_SIZE, NULL, mainTASK_PRIORITY, NULL );
+        xTaskCreate( statistics, "statistics", configMINIMAL_STACK_SIZE, NULL, mainTASK_PRIORITY-1, NULL );  
+        vTaskStartScheduler();}
+\end{lstlisting} 
+The task1 lasts 1200ms, T2 lasts 300ms and T3 600ms.
+Each task is structured in the following way (in this case task1):
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+static void task1(void *pvParameters){
+    TickType_t task1Start = xTaskGetTickCount();   
+    TickType_t task1Restart = task1Start;           
+    wt1_rr = task1Start;                            
+    TickType_t task1Stop;
+    printf("Task1 started at time %dms\n", pdTICKS_TO_MS(task1Start));
+    while (xTaskGetTickCount() - wt1_rr < pdMS_TO_TICKS(1200)){                 
+        if ((xTaskGetTickCount() - task1Restart) >= pdMS_TO_TICKS(100UL) && xTaskGetTickCount() - wt1_rr < pdMS_TO_TICKS(1200)){
+            task1Stop = xTaskGetTickCount();                                    
+            printf("Task1 stopped at time %dms\n", pdTICKS_TO_MS(task1Stop));
+            taskYIELD();                                                        
+            task1Restart = xTaskGetTickCount();                                 
+            printf("Task1 restarted at time %dms\n", pdTICKS_TO_MS(task1Restart));
+            wt1_rr += task1Restart - task1Stop;}}
+    tt1_rr = xTaskGetTickCount();
+    rt1_rr = task1Start;
+    printf("Task1 finished at time %dms\n", pdTICKS_TO_MS(tt1_rr));
+    vTaskDelete(NULL);}
+\end{lstlisting}
+The starting time of the task in ticks is saved in the variable task1Start, which is the time elapsed since the scheduler started. At this moment the waiting time is equal to task1Start so in the global variable wt1\_rr is saved the same quantity. Then there is a while loop that will be interrupted only when the execution time of the task reaches 1200ms, the execution time is computed as the current time minus the time that the task spent in waiting state.
+Inside the while loop is checked if the task has been running for more than 100ms by computing the difference between the current time and the last time in which the task restarted, if this condition is true the stop time is saved in the variable task1Stop and a context switch is performed using the system call taskYIELD(). When the task restarts the restarting time is saved in the variable task1Restart and the difference between the restarting time and the stop time is added to the waiting time.
+At the end of the task the response time and the turnaround time are saved in the global variables.
+The job of the statistics task is printing the statistics of each task and compute the average waiting time, turnaround time and response time:
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+static void statistics(void *pvParameters){     
+    printf("Waiting time task1 = %dms, turnaround time = %dms, response time = %dms\n", pdTICKS_TO_MS(wt1_rr), pdTICKS_TO_MS(tt1_rr), pdTICKS_TO_MS(rt1_rr));
+    printf("Waiting time task2 = %dms, turnaround time = %dms, response time = %dms\n", pdTICKS_TO_MS(wt2_rr), pdTICKS_TO_MS(tt2_rr), pdTICKS_TO_MS(rt2_rr));
+    printf("Waiting time task3 = %dms, turnaround time = %dms, response time = %dms\n", pdTICKS_TO_MS(wt3_rr), pdTICKS_TO_MS(tt3_rr), pdTICKS_TO_MS(rt3_rr));
+    printf("Average Waiting Time = %dms, average Turnaround Time = %dms, average Response Time = %dms\n", (wt1_rr+wt2_rr+wt3_rr)/3, (tt1_rr+tt2_rr+tt3_rr)/3, (rt1_rr+rt2_rr+rt3_rr)/3);
+    vTaskDelete(NULL);}
+\end{lstlisting}
+
+\section{TimeLine Scheduling}
+Timeline scheduling is a Real-Time non-preemptive scheduling algorithm used for periodic tasks. It consists of dividing the temporal axis in different slots of the same duration called minor cycles in which different tasks can be allocated for the execution.
+The duration of each minor cycle is defined by computing the greatest common divider (GCD) of all the task periods. The set of minor cycles forms the major cycle whose duration is define as the least common multiplier (LCM) of all the task periods.
+If all the tasks execute correctly within a major cycle, means that the scheduling is feasible.\newline
+\textbf{Requirements}\newline
+Since Timeline scheduling is not natively supported on FreeRTOS we created a simulation. It is based on 3 different tasks A, B and C executed in a major composed by 6 different minors.
+Each task has an execution time and a period defined using the costants \textbf{mainEXEC\_TASK\_A (B, or C)} respectively 20 ms, 10 ms and 10 ms converted from ms to ticks using the function \textbf{pdMS\_TO\_TICKS()} and the constats \textbf{A(B or C)\_period} respectively 40 ms, 80 ms and 120 ms.
+The major and minor tasks have been computed according to the period values of the tasks with the result of \textbf{mainTASK\_Major\_MS} (240ms) and \textbf{mainTASK\_Minor\_MS} (40ms).
+It’s essential to modify \textbf{INCLUDE\_vTaskDelay} bit to 1 in the FreeRTOSConfig.h file to be able to use the vTaskDelay function that will be used to simulate the minor duration.
+To measure the past time is used the function \textbf{xTaskGetTickCount()} that measures the number of ticks from the creation of the task 
+Finally, since FreeRTOS aims to be lightweight and efficient, it does not include full support for floating-point operations by default, so to measure the CPU utilization factor it is essential use a division function implemented to represent the floating number as a string.
+\subsection{The Code}\newline
+Starting from the main function we created the major task using the \textbf{xTaskCreate()} function assigning Major() as task\_function, “major” name, configMINIMAL\_STACK\_SIZE as size of the stack (defined in FreeRTOSConfig.h and set to 800), configTASK\_LOW\_PRIORITY as priority value, with no need to pass any parameter to the function and no handler.
+Then the scheduler starts with the vTaskStartScheduler() function.
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+void mainTimeLineScheduling( void ){
+BaseType_t major_task;
+    major_task = xTaskCreate( Major,
+                "Major",
+                configMINIMAL_STACK_SIZE, 		 
+                NULL,
+                configTASK_LOW_PRIORITY,
+                NULL);
+    vTaskStartScheduler();}
+\end{lstlisting}
+The major function is the core of the algorithm itself; it initializes 3 main variables:
+\begin{itemize}
+    \item StartTime $\rightarrow$ used as reference for the beginning of the task.
+    \item xBlockTime $\rightarrow$ used to measure the execution time of the relative minor and will be used to compute the remaining time the minor will be put waiting.
+    \item 	$CPU_{utilization-factor}$ $\rightarrow$ used to compute the cpu utilization factor computed as:
+\end{itemize}
+The $CPU_{utilization-factor}$ is initialized to zero at the beginning of the major task, then the Minor1() is executed returning the time referred to the beginning of the execution.
+The StartTime is used to compute the execution time of the minor as follow
+\begin{center}
+    \textbf{xBlockTime= xTaskGetTickCount()-StartTime}
+\end{center}
+Then a conditional statement is performed, checking whether the execution time of the minor is minor than the execution interval associated to it. If yes, then is called the vTaskDelay() function passing the remaining time (mainTASK\_Minor\_MS – xBlockTime) as parameter.
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+void Major(){
+    TickType_t xNextWakeTime;
+    uint32_t xBlockTime;
+    uint32_t StartTime = 0;
+    uint32_t CPU_UTILIZATION_FACTOR;
+    while(1){
+        CPU_UTILIZATION_FACTOR = 0;
+        StartTime = Minor1();                                  
+        xBlockTime = xTaskGetTickCount() - StartTime;
+        if(xBlockTime <  mainTASK_Minor_MS)
+            vTaskDelay(mainTASK_Minor_MS - xBlockTime); 
+        CPU_UTILIZATION_FACTOR += xBlockTime;}
+\end{lstlisting}
+After the delay, is added to the cpu utilization factor variable the execution time of the minor, that will be used at the end of the major to measure how much the CPU has been out of idle.
+\begin{center}
+    $CPU_{utilization}=\frac{CPU_{utilization-factor}}{mainTASK_Major_ms}$
+\end{center}
+Where:
+\begin{itemize}
+    \item 	$CPU_{utilization-factor} = \sum\mathbit{xBlockTime}$ (meaning the execution time of each Minor)
+    \item 	mainTASK\_Major\_ms = as defined before is a costant with value 240 ms
+\end{itemize}
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+Void Major(){
+   printf("\nCpu_Utilization_factor : %s\n", division(CPU_UTILIZATION_FACTOR, mainTASK_Major_MS, 3)); //precision = decimal numbers
+        break;}
+    vTaskDelete(NULL);
+\end{lstlisting}
+Since this is a simulation, after the execution of the minor, using a break the while loop is left and the task is deleted using the \textbf{vTaskDelete()}.
+The structure of the minors is similar for all, just changes which task is executed, according to their period and execution time. 
+Each minor prints the time it starts executing.
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+void Minor4(){
+    TickType_t xNextWakeTime = xTaskGetTickCount();
+    printf("\nMinor 4: %d\n", pdTICKS_TO_MS( xNextWakeTime ));
+    A(0);
+    C();}
+void Minor5(){
+    TickType_t xNextWakeTime = xTaskGetTickCount();
+    printf("\nMinor 5: %d\n", pdTICKS_TO_MS( xNextWakeTime ));
+    A(0);
+    B();}
+\end{lstlisting}
+Each task prints the time it starts executing, and the time it terminates its execution.
+To simulate the execution time is created a polling loop that looks for the condition:\newline
+$\mathbit{xTaskGetTickCount}()-\mathbit{StartTime}<\mathbit{mainExec}_\mathbit{task}$ 
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+TickType_t A(TickType_t Start){
+    TickType_t StartTime = xTaskGetTickCount() - Start;
+    printf("A started at: %d\n", StartTime );
+    while(xTaskGetTickCount() - StartTime < mainEXEC_TASK_A);
+    printf("  finished at: %d\n", pdTICKS_TO_MS( xTaskGetTickCount() ));
+    return StartTime;}
+\end{lstlisting}
+\section{Rate Monotonic}
+Rate Monotonic is a preemptive scheduling algorithm for periodic tasks where each task is given a static priority based on the inverse of its period. This allows for task with smaller periods (more frequent) to execute first reducing the risk of missing their timeline.
+\textbf{Requirements}\newline
+We activated preemption like we did for other algorithms requiring it by setting configUSE\_PREEMPTION to 1 in the FreeRTOSConfig.h file. We also modified the minimal stack size value to 800 words by setting the configMINIMAL\_STACK\_SIZE to 800,  the total heap size to 120 KiloBytes by setting the configTOTAL\_HEAP\_SIZE to 120 * 1024.
+\subsection{The code}
+For the demo we used three tasks similar to those used in the example in the slides having respectively: Periods T1=40ms, T2=80ms, T3=120ms and Worst Case Execution Times WCET1=20ms, WCET2=10ms, WCET3=10ms. We also used a 4th one to mimic the idle CPU task to allow us to track the percentage of time actually spent executing the tasks more easily.
+For each of the three tasks we created also a corresponding timer to make them periodic, each timer starts at zero (the tasks all arrive at time 0) and each one has a duration corresponding to the task’s period. After a timer reaches the value set it creates a new instance of the corresponding task. 
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+void main_RM( void ){
+    xTaskCreate( task1, "T1", configMINIMAL_STACK_SIZE, NULL, TASK1_PRIORITY, NULL );  
+    xTaskCreate( task2, "T2", configMINIMAL_STACK_SIZE, NULL, TASK2_PRIORITY, NULL );   
+    xTaskCreate( task3, "T3", configMINIMAL_STACK_SIZE, NULL, TASK3_PRIORITY, NULL );  
+    handle = xTaskCreate( taskIdle, "TIdle", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );  
+    TimerHandle_t timer1 = xTimerCreate("Timer1", pdMS_TO_TICKS(40), pdTRUE, NULL, timer1func);
+    xTimerStart(timer1, 0);
+    TimerHandle_t timer2 = xTimerCreate("Timer2", pdMS_TO_TICKS(80), pdTRUE, NULL, timer2func);
+    xTimerStart(timer2, 0);
+    TimerHandle_t timer3 = xTimerCreate("Timer3", pdMS_TO_TICKS(120), pdTRUE, NULL, timer3func);
+    xTimerStart(timer3, 0);
+    TimerHandle_t timer4 = xTimerCreate("Timer4", pdMS_TO_TICKS(5000), pdTRUE, NULL, timer4func);
+    xTimerStart(timer4, 0);
+    vTaskStartScheduler();}
+\end{lstlisting}
+We also created a 4th timer with duration of 5000ms (5 second) to put an end to the demo and to run a function that calculates the CPU Utilization Rate.
+Since the priorities are static we simply define the task with the shortest period to have the highest priority value (TASK1\_PRIORITY = tskIDLE\_PRIORITY +3) that corresponds to the highest priority in FreeRTOS.
+The tasks are very simple, they are implemented using a for cycle that approximates the duration with a counter common to all tasks to be later used for the utilization factor, and use the system call xTaskGetTickCount()  to display the time at which the task starts and finishes.
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+static void timer4func(void* parameters){
+    int temp = CPUIdle+CPUnotIdle;
+    printf("CPU Idle count %d\n",CPUIdle);
+    printf("CPU inTask count %d\n",CPUnotIdle);
+    printf("CPU Utilization Rate around %s", division(CPUnotIdle, temp, 3));
+    while(1);}
+    char* division(int num, int den, int prec) {
+    int Intpart = num / den;
+    long long int rest = num % den;
+    char* res = (char) pvPortMalloc(prec + 3); 
+    sprintf(res, "%d,", Intpart);
+    for (int i = 0; i < prec; i++) {
+        rest *= 10;
+        long long int cipher = rest / den;
+        rest %= den;
+        res[i+2] = '0' + cipher; 
+    }
+    res[prec+2] = '\0'; 
+    return res;}
+\end{lstlisting}
+In the upper code there is the calculation of the CPU Utilization Rate, where we implemented a function that doesn’t require the use of floating point numbers (not natively supported by FreeRTOS), in the lower one the one for a generic task and timer-activated function (task1 and timer1 function in this case).
+\begin{lstlisting}[breaklines=true, basicstyle=\bfseries,language=c,basicstyle=\small]
+static void task1(void *pvParameters){
+TickType_t task1Start = xTaskGetTickCount();
+printf("Task1 started at %d ms\n", pdTICKS_TO_MS(task1Start));
+for (int i=0; i<700000; i++){
+CPUnotIdle+=1;}
+printf("Task1 finished at %d ms\n", pdTICKS_TO_MS(xTaskGetTickCount()));
+vTaskDelete(NULL);}
+\end{lstlisting}
+Beside displaying the CPU Utilization Rate, the function linked to timer 4 also starts a infinite while loop to stop the execution of other tasks after the 5 seconds mark
+%---------------------------------------------------------------------------------------%
+
+
+
+%---------------------------------------------------------------------------------------%
+
+
+\bibliographystyle{amsplain}
+\begin{thebibliography}{99}
+
+\bibitem{download1} FreeRTOS™ Real-time operating system for microcontrollers
+\url{https://www.freertos.org/index.html}
+
+\bibitem{download2}  GitHub FreeRTOS
+\url{https://github.com/FreeRTOS/FreeRTOS}
+
+\bibitem{toolchain} Install Arm GNU Toolchain on Ubuntu 22.04.
+\url{https://lindevs.com/install-arm-gnu-toolchain-on-ubuntu}
+
+\bibitem{Cmake} How to Install CMake on Ubuntu 22.04 LTS
+\url{https://vitux.com/how-to-install-cmake-on-ubuntu/}
+
+\bibitem{QEMU}  QEMU Documentation.
+\url{https://www.qemu.org/}
+
+\end{thebibliography}
+
+\end{document}
+
+%------------------------------------------------------------------------------
+% End of journal.tex
+%------------------------------------------------------------------------------
